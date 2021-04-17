@@ -1,0 +1,3 @@
+[submodule "grpc-go-course"]
+	path = grpc-go-course
+	url = https://github.com/simplesteph/grpc-go-course.git
