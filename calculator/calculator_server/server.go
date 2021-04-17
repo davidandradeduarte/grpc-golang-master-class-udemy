@@ -1,9 +1,9 @@
 package main
 
 import (
+	"calculator/calculatorpb"
 	"context"
 	"fmt"
-	"greet/greetpb"
 	"log"
 	"net"
 
@@ -12,12 +12,12 @@ import (
 
 type server struct{}
 
-func (*server) Greet(ctx context.Context, req *greetpb.GreetRequest) (*greetpb.GreetResponse, error) {
-	fmt.Printf("Greet function was invoked with %v\n", req)
-	firstName := req.GetGreeting().GetFirstName()
-	greet := fmt.Sprintf("Hello %s", firstName)
-	res := &greetpb.GreetResponse{
-		Result: greet,
+func (*server) Sum(ctx context.Context, req *calculatorpb.SumRequest) (*calculatorpb.SumResponse, error) {
+	fmt.Printf("Sum function was invoked with %v\n", req)
+	numbers := req.GetNumbers()
+	sum := numbers.FirstNumber + numbers.SecondNumber
+	res := &calculatorpb.SumResponse{
+		Result: sum,
 	}
 	return res, nil
 }
@@ -31,7 +31,7 @@ func main() {
 	}
 
 	s := grpc.NewServer()
-	greetpb.RegisterGreetServiceServer(s, &server{})
+	calculatorpb.RegisterCalculatorServiceServer(s, &server{})
 
 	fmt.Println("serving gRPC at 0.0.0.0:50051")
 	if err := s.Serve(lis); err != nil {
