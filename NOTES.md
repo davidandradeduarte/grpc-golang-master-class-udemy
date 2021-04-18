@@ -76,3 +76,9 @@
         fmt.Printf("created client: %f", c)
     }
     ```
+- Server streaming API makes sense when the server needs to send a huge amount of data back, then diving the data into streams or chunks of data. It also makes a lot of sense to use server streaming when you need to push data to the clients, without the need of new requests. E.g live feed, chats, etc
+- The `stream` keyword is used in proto files to specify that some request/response is going to be a stream of data
+- 
+
+## Additional notes
+

@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"time"
 
 	"google.golang.org/grpc"
 )
@@ -20,6 +21,27 @@ func (*server) Sum(ctx context.Context, req *calculatorpb.SumRequest) (*calculat
 		Result: sum,
 	}
 	return res, nil
+}
+
+func (*server) PrimeNumberDecomposition(req *calculatorpb.PrimeNumberDecompositionRequest, stream calculatorpb.CalculatorService_PrimeNumberDecompositionServer) error {
+	fmt.Printf("PrimeNumberDecomposition function was invoked with %v\n", req)
+
+	number := req.GetNumber()
+
+	for i := int32(2); number > 1; {
+		if number%i == 0 {
+			res := &calculatorpb.PrimeNumberDecompositionResponse{
+				Result: i,
+			}
+			stream.Send(res)
+			number = number / i
+		} else {
+			i = i + 1
+		}
+		time.Sleep(500 * time.Millisecond)
+	}
+
+	return nil
 }
 
 func main() {
