@@ -79,7 +79,8 @@
 - The `stream` keyword is used in proto files to specify that some request/response is going to be a stream of data
 - Server streaming API makes sense when the server needs to send a huge amount of data to the clients, then dividing the data into streams or chunks of data. It also makes a lot of sense to use server streaming when you need to push data to the clients, without the need of new requests. E.g live feed, chats, etc
 - Client streaming API makes sense when the client needs to send a huge amount of data to the server, then dividing the data into streams or chunks of data. Also when the server processing may be expensive and should happen as the client sends data or when the client needs to push data to the server without really expecting a response
+- Bi directional streaming API makes sense when both the client and the server need to send a huge amount of data between them. The number of responses doesn't need to match the number of requests. Can make sense for example in any "chat" protocol or long running connections
+
+# Additional notes
+
 - 
-
-## Additional notes
-
