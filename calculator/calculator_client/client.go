@@ -108,6 +108,8 @@ func doBiDirectionalStreaming(c calculatorpb.CalculatorServiceClient) {
 	}
 
 	requests := []*calculatorpb.FindMaximumRequest{
+		{Number: -3},
+		{Number: -15},
 		{Number: 1},
 		{Number: 5},
 		{Number: 3},

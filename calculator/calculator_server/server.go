@@ -68,7 +68,6 @@ func (*server) ComputeAverage(stream calculatorpb.CalculatorService_ComputeAvera
 func (*server) FindMaximum(stream calculatorpb.CalculatorService_FindMaximumServer) error {
 	fmt.Printf("FindMaximum function was invoked with a streaming request\n")
 
-	var numbers []int32
 	var max int32
 	firstTime := true
 	for {
@@ -82,17 +81,14 @@ func (*server) FindMaximum(stream calculatorpb.CalculatorService_FindMaximumServ
 		}
 
 		number := req.GetNumber()
-		numbers = append(numbers, number)
 		if firstTime {
+			firstTime = false
 			max = number
 			send = true
-			firstTime = false
 		} else {
-			for _, n := range numbers {
-				if n > max {
-					max = n
-					send = true
-				}
+			if number > max {
+				max = number
+				send = true
 			}
 		}
 
