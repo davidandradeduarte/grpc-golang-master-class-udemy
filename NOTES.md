@@ -80,7 +80,17 @@
 - Server streaming API makes sense when the server needs to send a huge amount of data to the clients, then dividing the data into streams or chunks of data. It also makes a lot of sense to use server streaming when you need to push data to the clients, without the need of new requests. E.g live feed, chats, etc
 - Client streaming API makes sense when the client needs to send a huge amount of data to the server, then dividing the data into streams or chunks of data. Also when the server processing may be expensive and should happen as the client sends data or when the client needs to push data to the server without really expecting a response
 - Bi directional streaming API makes sense when both the client and the server need to send a huge amount of data between them. The number of responses doesn't need to match the number of requests. Can make sense for example in any "chat" protocol or long running connections
+- gRPC uses its own error codes: [https://grpc.io/docs/guides/error/](https://grpc.io/docs/guides/error/)
+- Deadlines define how long the client will wait for a gRPC call to complete. If we reach the defined deadline we will get a DEADLINE_EXCEEDED error code. It's recommended to set a deadline for each RPC call [https://grpc.io/blog/deadlines/](https://grpc.io/blog/deadlines/)
+- Deadline should also be passed (chained) through gRPC services. E.g if client A calls gRPC service B and service B calls gRPC service C, C should know about the initial deadline defined by client A
+    ```golang
+
+    ```
 
 # Additional notes
 
 - 
+
+# Questions
+
+- Even if we set a context deadline in our client, it seems like we need to hanle it on the server. I was hoping it to be more straight forward - e.g the server would return `GRPC_STATUS_DEADLINE_EXCEEDED` automatically once the context deadline was exceeded. Also, I didn't understood the difference between `context.WithDeadline` and `context.WithTimeout`
