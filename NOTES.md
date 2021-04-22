@@ -28,8 +28,8 @@
 - 4 types of API in gRPC: Unary, Server Streaming, Client Streaming and Bi Directional Streaming
     - **Unary**: Request --> Response
     - **Server Streaming**: Request --> Stream of Responses (server push)
-    - **Client Streaming**: Stream of Requests --> Response
-    - **Bi Directional Streaming**: Stream of Requests <--> Stream of Responses. It doesn't need to be ordered. It can be asynchronously. You can receive responses at the same time you're sending new requests
+    - **Client Streaming**: Stream of Requests --> Response (client push)
+    - **Bi Directional Streaming**: Stream of Requests <--> Stream of Responses. It doesn't need to be ordered. It can be asynchronously. You can receive responses at the same time you're sending new requests (client and server push)
 - gRPC leverages HTTP/2 multiplexing for async streaming communication
 - gRPC servers are async by default
 - gRPC clients can be async or sync
@@ -83,9 +83,15 @@
 - gRPC uses its own error codes: [https://grpc.io/docs/guides/error/](https://grpc.io/docs/guides/error/)
 - Deadlines define how long the client will wait for a gRPC call to complete. If we reach the defined deadline we will get a DEADLINE_EXCEEDED error code. It's recommended to set a deadline for each RPC call [https://grpc.io/blog/deadlines/](https://grpc.io/blog/deadlines/)
 - Deadline should also be passed (chained) through gRPC services. E.g if client A calls gRPC service B and service B calls gRPC service C, C should know about the initial deadline defined by client A
+- gRPC SSL/TLS or token based auth can be found here: [https://grpc.io/docs/guides/auth/](https://grpc.io/docs/guides/auth/)
+- Enabling reflection on a gRPC server is very useful for API discovery. We can set reflection with
     ```golang
-
+    import "google.golang.org/grpc/reflection"
+    ...
+    reflection.Register(s)
     ```
+    see [https://github.com/grpc/grpc-go/tree/master/reflection](https://github.com/grpc/grpc-go/tree/master/reflection)
+- Reflection can be used to create gRPC clients without the need ofa protobuf. For example, [evans](https://github.com/ktr0731/evans) it's a pretty cool CLI that uses reflection to talk to a gRPC server as a gRPC client. It can also use .proto files and other goodies. I'll be definitely using it
 
 # Additional notes
 
