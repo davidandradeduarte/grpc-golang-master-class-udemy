@@ -92,6 +92,14 @@
     ```
     see [https://github.com/grpc/grpc-go/tree/master/reflection](https://github.com/grpc/grpc-go/tree/master/reflection)
 - Reflection can be used to create gRPC clients without the need ofa protobuf. For example, [evans](https://github.com/ktr0731/evans) it's a pretty cool CLI that uses reflection to talk to a gRPC server as a gRPC client. It can also use .proto files and other goodies. I'll be definitely using it
+- we can capture os signals for user interaction (e.g CTRL+C to exit)
+    ```golang
+    ch := make(chan os.Signal, 1)
+	signal.Notify(ch, os.Interrupt)
+
+	<-ch
+    os.Exit(0)
+    ```
 
 # Additional notes
 
