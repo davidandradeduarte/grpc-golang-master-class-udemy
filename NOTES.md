@@ -100,11 +100,9 @@
 	<-ch
     os.Exit(0)
     ```
-
-# Additional notes
-
-- 
+- Examples from Google's protos have a lot of comments documenting the rpc error codes and behaviours. This is very important to the server who implements the proto but specially for clients that consume it, so that they can use it properly. e.g [pubsub.proto](https://github.com/googleapis/googleapis/blob/master/google/pubsub/v1/pubsub.proto), [spanner.proto](https://github.com/googleapis/googleapis/blob/master/google/spanner/v1/spanner.proto)
 
 # Questions
 
 - Even if we set a context deadline in our client, it seems like we need to hanle it on the server. I was hoping it to be more straight forward - e.g the server would return `GRPC_STATUS_DEADLINE_EXCEEDED` automatically once the context deadline was exceeded. Also, I didn't understood the difference between `context.WithDeadline` and `context.WithTimeout`
+- What's the difference between calling the `type.GetField()` method from gRPC generated code, isntead of the field name `type.Field` (`Field` name used just as an example to any other message field)
